@@ -2,9 +2,9 @@
   {
     "id": 4,
     "title": "Mouse Inalámbrico",
-    "description": "Mouse ergonómico con batería recargable",
+    "description": "Mouse ergonómico",
     "price": 50,
-    "img": "https://example.com/mouse-inalambrico.jpg",
+    "img": "./img/mouse.jpg",
     "code": "MOU321",
     "stock": 30
   },
@@ -13,7 +13,7 @@
     "title": "buzo",
     "description": "sport",
     "price": 1444,
-    "img": "no hay",
+    "img": "./img/buzo.jpg",
     "code": "buz123",
     "stock": 14
   },
@@ -34,5 +34,23 @@
     "img": "sin imagen",
     "code": "12459",
     "stock": "12"
+  },
+  {
+    "id": 1,
+    "title": "CHURRO",
+    "description": "Sabroso y relln",
+    "price": "1200",
+    "img": "sin imagen",
+    "code": "CHU",
+    "stock": "55"
+  },
+  {
+    "id": 1,
+    "title": "Peliculas",
+    "description": "Accion",
+    "price": "200",
+    "img": "sin imagen",
+    "code": "PELI01",
+    "stock": "5"
   }
 ]

@@ -6,11 +6,15 @@ const renderProductos = (productos) => {
     productos.forEach(item => {
         const card = document.createElement("div");
 
+        card.classList.add("productos")
         card.innerHTML = `
-                            <p>${item.title}</p>
+                            <h4>${item.title}</h4>
                             <p>${item.description}</p>
-                            <p>${item.price}</p>
+                            <p> $ ${item.price}</p>
                             <p>${item.stock}</p>
+                            <p>${item.code}</p>
+                            <img src="${item.img}" alt="imagen">
+                            <p>${item.status}</p>
                             <button> Eliminar </button>
                         `
         contenedorProductos.appendChild(card);               

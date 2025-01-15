@@ -61,6 +61,4 @@ io.on("connection", async (socket) => {
         await manager.borrarProductoById(id);
         io.sockets.emit("productos", await manager.getProduct());          
     })
-
-
 })
