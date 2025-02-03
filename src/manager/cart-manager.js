@@ -1,13 +1,24 @@
 import { promises as fs } from "fs";
-
+import CartModel from "../models/cart.model.js"
+import mongoose from "mongoose";
 class CartManager {
-    constructor(path) {
-        this.carts = [];
-        this.path = path;
-        this.ultId = 0;
+    // constructor(path) {
+    //     this.carts = [];
+    //     this.path = path;
+    //     this.ultId = 0;
 
-        //carto los carritos almacenados en el archivo
-        this.cargarCarrito();
+    //     //carto los carritos almacenados en el archivo
+    //     this.cargarCarrito();
+    // }
+
+    async crearCarrito() {
+        try {
+            const nuevoCarrito = await CartModel.create({ products: [] })
+            return nuevoCarrito;
+        } catch (error) {
+            console.log("Error al crear el carrito:", error);
+            throw new Error(" no se puede crear el carrito");
+        }
     }
 
 
@@ -35,53 +46,117 @@ class CartManager {
 
     // Metodos que me pide en la consigna//
 
-    async crearCarrito() {
-        const nuevoCarrito = {
-        id: ++this.ultId,
-        products: []
-        }
     
-        this.carts.push(nuevoCarrito)
-
-        // Guardamos el array en el archivo
-
-        await this.guardarCarritos()
-        return nuevoCarrito
-    }
 
     async getCarritoById(cartId) {
-        try {
-            const carrito = this.carts.find(c => c.id === cartId);
-    
-            if(!carrito) {
-                throw new Error("no existe un carrito con ese id")
+        try { 
+            if (!mongoose.isValidObjectId(cartId)) {
+                console.log("El id proporcionado no es válido");
+                return null
             }
+            
+            const carrito = await CartModel.findById(cartId);
+    
+            return carrito || null;
 
-            return carrito;
             
         } catch (error) {
-            throw new Error("Error al obtener el carrito");
+            console.log("Error al obtener el carrito:" , error.message);
+            throw new Error ("no se pudo recuperar el carrito. Verifique si el id del carrito es correcto")
         }
     }
 
-    async agregarProductoAlCart(cartId, productId, quantity = 1){
-        const carrito = await this.getCarritoById(cartId);
-        
-        //  Verifico si el producto ya existe en el carrito
-        const existeProducto = carrito.products.find(p => p.product === productId)
-
-        //si el PROD. ya esta agregado al carrito, le autmento la cantidad
-        // si el prodcuto todavia no se agrego lo pushe
-        if(existeProducto){
-            existeProducto.quantity += quantity
-        } else {
-            carrito.products.push({product: productId, quantity});
-
+    async agregarProductoAlCarrito(cartId, productId, quantity = 1) {
+        try {
+            // Buscar el carrito con el producto
+            const carrito = await CartModel.findOne({ _id: cartId, "products.product": productId });
+    
+            if (carrito) {
+                // Si el producto ya existe, solo actualizamos la cantidad
+                const updatedCarrito = await CartModel.findOneAndUpdate(
+                    { _id: cartId, "products.product": productId },
+                    { $inc: { "products.$.quantity": quantity } },
+                    { new: true }
+                );
+                return updatedCarrito;
+            } else {
+                // Si el carrito no tiene el producto, lo agregamos
+                const nuevoCarro = await CartModel.findByIdAndUpdate(
+                    cartId,
+                    { $push: { products: { product: productId, quantity } } },
+                    { new: true, upsert: false } // upsert: false ya que no queremos crear un nuevo carrito
+                );
+    
+                if (!nuevoCarro) {
+                    throw new Error("Carrito no encontrado.");
+                }
+    
+                return nuevoCarro;
+            }
+    
+        } catch (error) {
+            console.log("Error al agregar el producto al carrito:", error.message);
+            throw new Error("No se pudo agregar el producto al carrito. Verifique si el carrito existe.");
         }
+    }
 
-        await this.guardarCarritos();
-        return carrito;
 
+    async actualizarCantidadDeProductos(cartId, productId, quantity){
+        try {
+            const carritoActualizado = await CartModel.findByIdAndUpdate(
+                {_id: cartId, "products.product": productId},
+                {$set: {"products.$.quantity": quantity}},
+                {new: true}
+            );
+
+            if(!carritoActualizado){
+                throw new Error("carrito o producto no encontrado")
+            }
+
+            return carritoActualizado;
+        } catch (error) {
+            console.error("Hubo un error al actualizar la cantidad de producto");
+            throw error;            
+        }
+    }
+
+
+
+    async eliminarProductoDelCarrito(cartId, productId){
+        try {
+            const cart = await CartModel.findByIdAndUpdate(
+                cartId,
+                {$pull: {products: { product: productId }}}, // $pull para eliminar el producto directamente de la base de datos.
+                {new: true} // devuelve la ultima actualizacion del carrito
+            );
+            if (!cart) {
+                throw new Error("Carrito no encontrado")
+            }
+            return cart
+        } catch (error) {
+            console.error("Error al eliminar el producto del carrito", error.message);
+            throw new Error ("no se pudo eliminar el producto del carrito. Verificar.")
+        }
+    }
+
+
+    async vaciarCarrito (cartId){
+        try {
+            const carrito = await CartModel.findByIdAndUpdate(
+                cartId,
+                {products: []},
+                {new: true}
+            );
+
+            if(!carrito){
+                throw new Error("Carrito no encontrado");
+            }
+            return {message: "carrito vaciado correctamente"};
+
+        } catch (error) {
+            console.log("Error al vaciar el carrito", error);
+            throw error
+        }
     }
     
 }

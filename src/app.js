@@ -5,6 +5,7 @@ import { Server } from "socket.io";
 import { engine } from "express-handlebars";
 import viewsRouter from "./routes/views.router.js";
 import productManager from "./manager/product-manager.js";
+import multer from "multer";
 
 
 const app = express()

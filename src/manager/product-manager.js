@@ -2,14 +2,14 @@ import { promises as fs } from "fs";
 
 
 class productManager {
-    static ultId = 0 ;
-    constructor(path) {
-        this.products = [];
-        this.path = path; 
+    // static ultId = 0 ;
+    // constructor(path) {
+    //     this.products = [];
+    //     this.path = path; 
         
-    }
+    // }
 
-    async addProduct({title, description, price, img, code, stock}) {
+    async addProduct({title, description, price, img, code, stock, thumbnails}) {
 
         const arrayProductos = await this.leerArchivo();
 
