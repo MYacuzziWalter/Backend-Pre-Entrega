@@ -62,23 +62,19 @@ productsRouter.get("/:pid", async (req, res) => {
 
 // Agregar nuevo producto
 
-productsRouter.post("/",async (req, res) => {
+productsRouter.post("/", async (req, res) => {
+    const nuevoProducto = req.body;
+
     try {
-        const { title, description, price, img, code, stock, thumbnails } = req.body;
-
-        if (!title || !description || !price  || !code || !stock) {
-            res.status(404).json({error: "revisa bien, falta algun dato"})
-        }
-
-            await manager.addProduct({title, description, price, img, code, stock, thumbnails});
-            
-            res.status(201).json({message: "Producto agregado exitosamente"})
-        
-        
+        await manager.addProduct(nuevoProducto);
+        res.status(201).json({
+            message: "Producto agregado exitosamente"
+        });
     } catch (error) {
         console.error("Error al agregar producto", error);
-        
-        res.status(500).json({error: "error al agregar producto"})
+        res.status(500).json({
+            error: "Error interno del servidor"
+        });
     }
 });
 

@@ -18,7 +18,7 @@ class productManager {
     thumbnails,
   }) {
     try {
-        if (!title || !description || !price || !img || !code || !stock || !category) {
+        if (!title || !description || !price ||  !code || !stock || !category) {
           console.log("Todos los campos son obligatorios");
           return;
         }
@@ -38,6 +38,7 @@ class productManager {
             img,
             code,
             stock,
+            category,
             status: true,
             thumbnails: thumbnails || [],
         })

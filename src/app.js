@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import "./database.js";
 import { engine } from "express-handlebars";
 import cartsRouter from "./routes/carts.router.js";
