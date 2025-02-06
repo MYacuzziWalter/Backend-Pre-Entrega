@@ -1,16 +1,21 @@
 import express from "express";
-import productsRouter from "./routes/products.router.js";
-import cartsRouter from "./routes/carts.router.js";
-import { Server } from "socket.io";
+import mongoose from "mongoose";
+import "./database.js";
 import { engine } from "express-handlebars";
+import cartsRouter from "./routes/carts.router.js";
+import productsRouter from "./routes/products.router.js";
 import viewsRouter from "./routes/views.router.js";
-import productManager from "./manager/product-manager.js";
-import multer from "multer";
+import ProductModel from "./models/product.model.js";
 
 
-const app = express()
+
+
+// import { Server } from "socket.io";
+// import multer from "multer";
+
+
+const app = express();
 const PUERTO = 8080;
-const manager = new productManager("./src/data/productos.json");
 
 // Middleware
 app.use(express.json());
@@ -21,9 +26,6 @@ app.use(express.static("./src/public"))
 app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./src/views");
-
-
-
 
 
 //  RUTAS
@@ -38,28 +40,27 @@ app.use("/", viewsRouter);
 
 
 
-const serverHttp = app.listen(PUERTO, () => {
+app.listen(PUERTO, () => {
     console.log(`Escuchando el puerto: ${PUERTO}`);
-    
-})
+  })
 
 
 //socket
-const io = new Server(serverHttp);
+// const io = new Server(serverHttp);
 
 
-io.on("connection", async (socket) => {
-    console.log("alguien se ah conectado");
-    socket.emit("productos", await manager.getProduct());
+// io.on("connection", async (socket) => {
+//     console.log("alguien se ah conectado");
+//     socket.emit("productos", await manager.getProduct());
 
 
-    socket.on("agregarProducto", async (producto) => {
-        await manager.addProduct(producto);
-        io.sockets.emit("productos", await manager.getProduct());
-    })
+//     socket.on("agregarProducto", async (producto) => {
+//         await manager.addProduct(producto);
+//         io.sockets.emit("productos", await manager.getProduct());
+//     })
 
-    socket.on("eliminarProducto", async (id) => {
-        await manager.borrarProductoById(id);
-        io.sockets.emit("productos", await manager.getProduct());          
-    })
-})
+//     socket.on("eliminarProducto", async (id) => {
+//         await manager.borrarProductoById(id);
+//         io.sockets.emit("productos", await manager.getProduct());          
+//     })
+// })

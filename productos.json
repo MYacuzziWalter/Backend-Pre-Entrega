@@ -1,0 +1,112 @@
+[
+  {
+    "title": "buzo",
+    "description": "sport",
+    "price": 1444,
+    "img": "./img/buzo.jpg",
+    "code": "buz123",
+    "stock": 14,
+    "category": "ropa",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "title": "campera",
+    "description": "impermeable",
+    "price": 2999,
+    "img": "./img/campera.jpg",
+    "code": "camp456",
+    "stock": 10,
+    "category": "ropa",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "title": "zapatillas",
+    "description": "deportivas",
+    "price": 3999,
+    "img": "./img/zapatillas.jpg",
+    "code": "zap789",
+    "stock": 25,
+    "category": "calzado",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "title": "jeans",
+    "description": "denim azul",
+    "price": 1999,
+    "img": "./img/jeans.jpg",
+    "code": "jea321",
+    "stock": 30,
+    "category": "ropa",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "title": "gorra",
+    "description": "ajustable",
+    "price": 899,
+    "img": "./img/gorra.jpg",
+    "code": "gor654",
+    "stock": 20,
+    "category": "accesorios",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "title": "mochila",
+    "description": "15L resistente al agua",
+    "price": 2499,
+    "img": "./img/mochila.jpg",
+    "code": "moc987",
+    "stock": 12,
+    "category": "accesorios",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "title": "camisa",
+    "description": "manga larga, algodón",
+    "price": 1799,
+    "img": "./img/camisa.jpg",
+    "code": "cam159",
+    "stock": 18,
+    "category": "ropa",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "title": "remera",
+    "description": "algodón premium",
+    "price": 1299,
+    "img": "./img/remera.jpg",
+    "code": "rem753",
+    "stock": 22,
+    "category": "ropa",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "title": "shorts",
+    "description": "para entrenamiento",
+    "price": 1599,
+    "img": "./img/shorts.jpg",
+    "code": "sho852",
+    "stock": 16,
+    "category": "ropa",
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "title": "reloj",
+    "description": "digital, resistente al agua",
+    "price": 4999,
+    "img": "./img/reloj.jpg",
+    "code": "rel741",
+    "stock": 8,
+    "category": "accesorios",
+    "status": true,
+    "thumbnails": []
+  }
+]
