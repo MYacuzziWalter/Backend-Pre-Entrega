@@ -60,7 +60,6 @@ class productManager {
 
   async getProducts({ limit = 10, page = 1, sort, query } = {}) {
     try {
-        const skip = (page - 1) * limit;
 
         let queryOptions = {};
 
@@ -75,28 +74,25 @@ class productManager {
             }
         }
 
-        const productos = await ProductModel
-            .find(queryOptions)
-            .sort(sortOptions)
-            .skip(skip)
-            .limit(limit);
+        const resultado = await ProductModel.paginate(queryOptions,{
+          limit,
+          page,
+          sort: sortOptions,
+        });
+         
+        
 
-        const totalProducts = await ProductModel.countDocuments(queryOptions);
-
-        const totalPages = Math.ceil(totalProducts / limit);
-        const hasPrevPage = page > 1;
-        const hasNextPage = page < totalPages;
-
+        const {docs, totalPages, prevPage, nextPage, hasPrevPage, hasNextPage } = resultado
         return {
-            docs: productos,
-            totalPages,
-            prevPage: hasPrevPage ? page - 1 : null,
-            nextPage: hasNextPage ? page + 1 : null,
-            page,
-            hasPrevPage,
-            hasNextPage,
-            prevLink: hasPrevPage ? `/api/products?limit=${limit}&page=${page - 1}&sort=${sort}&query=${query}` : null,
-            nextLink: hasNextPage ? `/api/products?limit=${limit}&page=${page + 1}&sort=${sort}&query=${query}` : null,
+            docs: resultado.docs,
+            totalPages: resultado.totalPages,
+            prevPage: resultado.prevPage,
+            nextPage: resultado.nextPage,
+            page: resultado.page,
+            hasPrevPage: resultado.hasPrevPage,
+            hasNextPage: resultado.hasNextPage,
+            prevLink: hasPrevPage ? `/api/products?limit=${limit}&page=${prevPage}&sort=${sort}&query=${query}` : null,
+            nextLink: hasNextPage ? `/api/products?limit=${limit}&page=${nextPage}&sort=${sort}&query=${query}` : null,
         };
     } catch (error) {
         console.log("Error al obtener los productos", error);

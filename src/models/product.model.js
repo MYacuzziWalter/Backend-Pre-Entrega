@@ -39,7 +39,7 @@ const productSchema = new mongoose.Schema({
     },
 });
 
-// productSchema.plugin(mongoosePaginate)
+productSchema.plugin(mongoosePaginate)
 
 
 
