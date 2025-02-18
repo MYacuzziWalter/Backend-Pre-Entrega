@@ -29,7 +29,7 @@ app.set("views", "./src/views");
 
 //  RUTAS
 app.get("/", (req, res) => {
-    res.send("Trabajo 1 - Pre Entrega - Yacuzzi Walter")
+    res.redirect("/products")
 })
 
 

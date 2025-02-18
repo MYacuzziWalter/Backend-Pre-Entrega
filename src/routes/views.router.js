@@ -1,6 +1,7 @@
 import { Router } from "express";
 import ProductManager from "../manager/product-manager.js";
 import CartManager from "../manager/cart-manager.js";
+import productManager from "../manager/product-manager.js";
 
 
 
@@ -14,16 +15,14 @@ const cartManager = new CartManager();
 
 router.get("/products", async (req, res) => {
     try {
-       const { page = 1, limit = 2 } = req.query;
+       const { page = 1, limit = 4 } = req.query;
        const productos = await productmanager.getProducts({
           page: parseInt(page),
           limit: parseInt(limit)
        });
  
-       const nuevoArray = productos.docs.map(producto => {
-          const { _id, ...rest } = producto.toObject();
-          return rest;
-       });
+       const nuevoArray = productos.docs.map(producto => producto.toObject());
+          
  
        res.render("products", {
           productos: nuevoArray,
@@ -44,11 +43,32 @@ router.get("/products", async (req, res) => {
     }
  });
 
+
+ router.get("/products/:pid",async (req, res) => {
+    const productId = req.params.pid;
+   try {
+      const product = await productmanager.getProductById(productId);
+
+      if(!product) {
+         return res.status(404).render("Error", {message: "Producto no encontrado"})
+      }
+   
+      const productoEncontrado = product.toObject ? product.toObject() : product;
+
+      res.render("detailProducts", {product: productoEncontrado});
+
+   } catch (error) {
+      console.error(error);
+      res.status(500).send("error interno del servidor")      
+   }
+ })
+
 router.get("/carts/:cid", async (req, res) => {
     const cartId = req.params.cid;
 
     try {
         const carrito = await cartManager.getCarritoById(cartId);
+        
         if(!carrito){
             console.log("No se encuentra el carrito con ese id");
             return res.status(404).json({error: "Carrito no encontrado"})
