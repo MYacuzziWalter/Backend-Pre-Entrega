@@ -53,7 +53,8 @@ router.get("/products", async (req, res) => {
       }
    
       const productoEncontrado = product.toObject ? product.toObject() : product;
-
+      console.log(productoEncontrado.img);
+      
       res.render("detailProducts", {product: productoEncontrado});
 
    } catch (error) {
@@ -61,6 +62,10 @@ router.get("/products", async (req, res) => {
       res.status(500).send("error interno del servidor")      
    }
  })
+
+
+
+ 
 
 router.get("/carts/:cid", async (req, res) => {
     const cartId = req.params.cid;
