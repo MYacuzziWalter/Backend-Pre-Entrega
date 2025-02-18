@@ -1,16 +1,16 @@
 <h2>Detalles</h2>
 
-<div class="contenedor">
+<div class="contenedor" >
+  
+  
+    <img src="{{product.img}}" alt={{product.title}} />
+
   
   <div>
-    <img src="{{producto.thumbnail}}" alt="{{product.title}}" width="300" />
-  </div>
-  
-  <div>
-    <p><strong>Precio:</strong> ${{product.price}}</p>
-    <p><strong>Descripción:</strong> {{product.description}}</p>
-    <p><strong>Stock:</strong> {{product.stock}}</p>
-    <a href=""><button>Comprar</button></a>
+    <p><strong>Precio: </strong> ${{product.price}}</p>
+    <p><strong>Descripción: </strong> {{product.description}}</p>
+    <p><strong>Stock: </strong> {{product.stock}}</p>
+    <a href=""><button class="btn">Comprar</button></a>
     <a href="/products"> Volver </a>
   </div>
 

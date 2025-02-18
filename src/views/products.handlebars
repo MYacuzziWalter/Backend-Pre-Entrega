@@ -4,12 +4,10 @@
   {{#each productos}}
   <div class="cardProducts">
     <h4 class="titulo"> {{this.title}} </h4>
-    <img src="{{this.img}}" alt="sin imagen por el momento" />
-    <p> {{this.description}} </p>
+    <img src="{{this.img}}" alt={{this.title}} />
     <p> Precio: {{this.price}} </p>
-    <p> Codigo: {{this.code}} </p>
     <p> Stock Disponible: {{this.stock}} </p>
-    <button id="btnComprar" onclick="window.location.href='/products/{{this._id}}'"> Comprar </button>
+    <button class="btn" id="btnComprar" onclick="window.location.href='/products/{{this._id}}'"> Comprar </button>
   </div>
   {{/each}}
 </div>
