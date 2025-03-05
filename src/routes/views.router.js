@@ -53,7 +53,7 @@ router.get("/products", async (req, res) => {
       }
    
       const productoEncontrado = product.toObject ? product.toObject() : product;
-      console.log(productoEncontrado.img);
+      
       
       res.render("detailProducts", {product: productoEncontrado});
 
@@ -91,6 +91,15 @@ router.get("/carts/:cid", async (req, res) => {
         
     }
     
+})
+
+
+router.get("/register", (req, res) => {
+   res.render("register");
+})
+
+router.get("/login", (req, res) => {
+   res.render("login");
 })
 
 

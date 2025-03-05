@@ -113,7 +113,7 @@ class productManager {
         return null
       } 
 
-      console.log("Producto encontrado");
+      
       return producto;
 
 

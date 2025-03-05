@@ -1,11 +1,13 @@
 import express from "express";
 import "./database.js";
+import initializatePassport from "./config/passport.config.js";
 import { engine } from "express-handlebars";
 import cartsRouter from "./routes/carts.router.js";
 import productsRouter from "./routes/products.router.js";
 import viewsRouter from "./routes/views.router.js";
-import ProductModel from "./models/product.model.js";
-
+import sessionRouter from "./routes/session.router.js"
+import passport from "passport";
+import cookieParser from "cookie-parser";
 
 
 
@@ -20,6 +22,9 @@ const PUERTO = 8080;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("./src/public"))
+app.use(cookieParser())
+app.use(passport.initialize());
+initializatePassport();
 
 
 app.engine("handlebars", engine());
@@ -35,6 +40,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/api/session", sessionRouter)
 app.use("/", viewsRouter);
 
 
