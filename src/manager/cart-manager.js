@@ -1,5 +1,5 @@
 // import { promises as fs } from "fs";
-import CartModel from "../models/cart.model.js"
+import CartModel from "../dao/models/cart.model.js"
 class CartManager {
     // constructor(path) {
     //     this.carts = [];

@@ -1,22 +1,33 @@
 import { Router } from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
-import { createHash, isValidPassport } from "../utils/util.js";
-import userModel from "../models/users.model.js";
+import { createHash, isValidPassword } from "../utils/util.js";
+import userModel from "../dao/models/users.model.js";
 import CartManager from "../manager/cart-manager.js";
+import UserControllers from "./controllers/user.controller.js"
 const router = Router();
 const manager = new CartManager()
+const userController = new UserController();
+
+
+
+router.post("/register", userController.register);
+router.post("/login", userController.login);
+router.get("/current", passport.authenticate("jwt",{session: false}), userController.current);
+router.post("/logout", current.logout);
+
+
 
 router.post("/login", async (req, res) => {
+    const {email, password} = req.body;
     try {
-        const {email, password} = req.body;
         const user = await userModel.findOne({email});
 
         if(!user){
             return res.status(401).send({error: "Usuario no encontrado"});
         }
-
-        if(!isValidPassport(password, user)) {
+        
+        if(!isValidPassword(password, user)) {
             return res.status(401).send({error: "La contraseña es incorrecta"})
         }
 
@@ -64,15 +75,8 @@ router.post("/register", async (req, res) => {
     } catch (error) {
         console.error("Error al registrar el usuario " + error);
         res.status(500).json({error: "Error interno del servidor al crear el usuario"})
-        
     }
 })
-
-router.post("/logout", (req, res) => {
-    res.clearCookie("cooderCookieToken");
-    res.redirect("/login");
-})
-
 
 router.get("/current", passport.authenticate("current", {session: false}) ,(req, res) => {
     if(req.user.email) {
@@ -81,6 +85,15 @@ router.get("/current", passport.authenticate("current", {session: false}) ,(req,
         res.send("Algo salio mal, no estas logueado")
     }
 } )
+
+
+
+router.post("/logout", (req, res) => {
+    res.clearCookie("cooderCookieToken");
+    res.redirect("/login");
+})
+
+
 
 
 
