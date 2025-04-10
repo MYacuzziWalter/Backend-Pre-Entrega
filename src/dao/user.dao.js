@@ -21,4 +21,4 @@ class UserDao {
 }
 
 
-export default new UserDao;
+export default new UserDao();

@@ -10,11 +10,11 @@ class UserRepository {
         return await UserDao.findById(id)
     }
 
-    async GetUserByEmail(email) {
-        return await UserDao.FindOne({email})
+    async getUserByEmail(email) {
+        return await UserDao.findOne({email})
     }
 
-    async 
+    
 }
 
 
