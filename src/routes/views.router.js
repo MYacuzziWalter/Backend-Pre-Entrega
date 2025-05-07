@@ -1,17 +1,30 @@
 import { Router } from "express";
 import ProductManager from "../manager/product-manager.js";
 import CartManager from "../manager/cart-manager.js";
+// const productmanager = new ProductManager();
+// const cartManager = new CartManager();
+import { 
+      renderProductsViews,
+      renderProductDetailView,
+      renderCartView,
+      renderLoginView,
+      renderRegisterView
+    } from "../controllers/views.controller.js";
 
 
 
-
-const router = Router();
-const productmanager = new ProductManager();
-const cartManager = new CartManager();
+const viewRouter = Router();
 
 
+viewRouter.get("/products", renderProductsViews);
+viewRouter.get("/products/:pid", renderProductDetailView);
+viewRouter.get("/carts/:cid", renderCartView);
+viewRouter.get("/login", renderLoginView);
+viewRouter.get("/register", renderRegisterView);
 
 
+
+/*
 router.get("/products", async (req, res) => {
     try {
        const { page = 1, limit = 4 } = req.query;
@@ -101,6 +114,7 @@ router.get("/register", (req, res) => {
 router.get("/login", (req, res) => {
    res.render("login");
 })
+*/   
 
 
-export default router;
+export default viewRouter;

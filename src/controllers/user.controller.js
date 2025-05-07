@@ -1,3 +1,4 @@
+import cartService from "../services/cart.service.js";
 import userService from "../services/user.service.js";
 import jwt from "jsonwebtoken";
 
@@ -6,12 +7,16 @@ class UserController {
     const { first_name, last_name, email, age, password } = req.body;
 
     try {
+
+      const newCart = await cartService.crearCarrito();
+
       const newUser = await userService.registerUser({
         first_name,
         last_name,
         email,
         age,
         password,
+        cart: newCart._id
       });
 
       const token = jwt.sign(
